@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haheho</title>
+
+  <!-- Tambahan: Font mirip Comic Sans agar tampil sama di HP -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Comic Neue', cursive; /* diganti dari Comic Sans MS */
+      background: #cfe9ff; /* biru muda lembut */
+    }
+
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    button {
+      padding: 12px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ff6666;
+      color: #fff;
+      transition: transform 0.2s ease, background 0.3s;
+      position: relative;
+    }
+
+    button:hover {
+      background: #ff3333;
+    }
+
+    button.bounce {
+      animation: bounce 0.4s;
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(0.9); }
+      75% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .confess-box {
+      max-width: 600px;
+      padding: 30px;
+      background: #fff url('https://www.transparenttextures.com/patterns/white-paper.png');
+      border: 2px solid #d4d4d4;
+      border-radius: 10px;
+      box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+      font-size: 18px;
+      line-height: 1.8;
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeInUp 1.2s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      h2 { font-size: 20px; }
+      button { font-size: 16px; padding: 10px 16px; }
+      .confess-box {
+        width: 100%;
+        font-size: 16px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Halaman 1 -->
+  <div class="page active" id="page1">
+    <h2>Haii Yasmin 😏</h2>
+    <button id="btn1">next</button>
+  </div>
+
+  <!-- Halaman 2 -->
+  <div class="page" id="page2">
+    <h2>pencet lagii 😝</h2>
+    <button id="btn2">next</button>
+  </div>
+
+  <!-- Halaman 3 -->
+  <div class="page" id="page3">
+    <h2>Serius, ini yang terakhir...</h2>
+    <button id="btn3">next</button>
+  </div>
+
+  <!-- Confess 1 -->
+  <div class="page" id="confess1">
+    <div class="confess-box">
+      <p>
+        Jujur aja, aku agak malu bikin ini... tapi katanya, kadang kita harus sedikit nekat buat nyampein sesuatu.  
+        <br><br>
+        Kita juga baru kenal sekitar dua bulanan, belum pernah ketemu juga. Kadang aku suka mikir gimana caranya mulai ngobrol tanpa keliatan aneh 😅
+      </p>
+    </div>
+    <button onclick="showPage('confess2')">next</button>
+  </div>
+
+  <!-- Confess 2 -->
+  <div class="page" id="confess2">
+    <div class="confess-box">
+      <p>
+        Makasih yaa udah care, ngingetin buat jaga kesehatan, ngingetin buat tetep semangat kuliah, sama ngingetin yang lain-lain.  
+        <br><br>
+        (meski kadang aku cuma bales “semangat” doang, hehe 😳).  
+        <br><br>
+        Terus terang aku juga bingung mau ngomong gimana, soalnya jarang banget aku cerita kayak gini.
+      </p>
+    </div>
+    <button onclick="showPage('confess3')">next</button>
+  </div>
+
+  <!-- Confess 3 -->
+  <div class="page" id="confess3">
+    <div class="confess-box">
+      <p>
+        Intinya... aku ngerasa nyaman dan pengen bisa lebih deket ajaa sama kamu.  
+        <br><br>
+        Nggak usah langsung mikir yang aneh-aneh, maksudku ya biar ngobrol kita lebih enak.  
+        <br><br>
+        Itu aja sih, hehe ✌️
+      </p>
+    </div>
+    <button onclick="showPage('closing')">next</button>
+  </div>
+
+  <!-- Halaman Penutup -->
+  <div class="page" id="closing">
+    <div class="confess-box">
+      <h2>makasii yas udah mau baca sampe selesai </h2>
+    </div>
+  </div>
+
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    function playBoingSound() {
+      const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_2fd6a2c2b7.mp3?filename=cartoon-jump-6462.mp3");
+      audio.volume = 0.5;
+      audio.play();
+    }
+
+    function makeButtonAnnoying(btn, nextPageId, maxMoves) {
+      let moveCount = 0;
+      btn.addEventListener('mouseover', () => {
+        if (moveCount < maxMoves) {
+          btn.classList.add('bounce');
+          playBoingSound();
+          btn.style.position = "absolute";
+          btn.style.top = Math.random() * 80 + "%";
+          btn.style.left = Math.random() * 80 + "%";
+          moveCount++;
+          setTimeout(() => btn.classList.remove('bounce'), 400);
+        }
+      });
+      btn.addEventListener('click', () => {
+        if (moveCount >= maxMoves) {
+          showPage(nextPageId);
+        }
+      });
+    }
+
+    // Halaman 1: tombol pindah 7x
+    makeButtonAnnoying(document.getElementById('btn1'), 'page2', 7);
+
+    // Halaman 2: tombol pindah 4x
+    makeButtonAnnoying(document.getElementById('btn2'), 'page3', 4);
+
+    // Halaman 3: langsung lanjut
+    makeButtonAnnoying(document.getElementById('btn3'), 'confess1', 0);
+  </script>
+
+</body>
+</html>
